@@ -19,7 +19,12 @@
 # 🌐 Redirects and rewrites for SPA
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
+  to = "/.netlify/functions/api/*"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/api"
+  to = "/.netlify/functions/api/"
   status = 200
 
 [[redirects]]
