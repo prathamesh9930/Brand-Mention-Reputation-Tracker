@@ -14,7 +14,12 @@ exports.handler = async (event, context) => {
         const path = event.path.replace('/.netlify/functions/api', '');
         const method = event.httpMethod;
         
-        console.log('API Request:', { method, path, body: event.body });
+        console.log('=== API REQUEST DEBUG ===');
+        console.log('Original event.path:', event.path);
+        console.log('Cleaned path:', path);
+        console.log('Method:', method);
+        console.log('Body:', event.body);
+        console.log('========================');
         
         // Handle CORS preflight
         if (method === 'OPTIONS') {
@@ -46,7 +51,8 @@ exports.handler = async (event, context) => {
         }
         
         // Handle brands endpoints - support both with and without trailing slash
-        if ((path === '/api/brands/' || path === '/api/brands') && method === 'GET') {
+        if ((path === '/brands/' || path === '/brands' || path === '/api/brands' || path === '/api/brands/') && method === 'GET') {
+            console.log('✅ Brands GET endpoint matched!');
             return {
                 statusCode: 200,
                 headers: {
@@ -70,7 +76,8 @@ exports.handler = async (event, context) => {
         }
         
         // Handle add brand endpoint
-        if ((path === '/api/brands/add' || path === '/api/api/brands/add') && method === 'POST') {
+        if ((path === '/brands/add' || path === '/api/brands/add') && method === 'POST') {
+            console.log('✅ Brands POST endpoint matched!');
             const body = JSON.parse(event.body || '{}');
             return {
                 statusCode: 200,
@@ -93,6 +100,11 @@ exports.handler = async (event, context) => {
         }
         
         // Default response for unhandled routes
+        console.log('❌ No route matched. Available routes:');
+        console.log('GET /brands, /brands/, /api/brands, /api/brands/');
+        console.log('POST /brands/add, /api/brands/add');
+        console.log('GET /health, /api/health');
+        
         return {
             statusCode: 404,
             headers: {
@@ -101,9 +113,15 @@ exports.handler = async (event, context) => {
             },
             body: JSON.stringify({ 
                 error: 'Not Found',
-                path,
-                method,
-                message: 'API endpoint not implemented yet'
+                path: path,
+                originalPath: event.path,
+                method: method,
+                message: 'API endpoint not found. Check logs for debugging.',
+                availableRoutes: [
+                    'GET /brands',
+                    'POST /brands/add',
+                    'GET /health'
+                ]
             })
         };
         
