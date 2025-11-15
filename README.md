@@ -205,14 +205,15 @@ This project is licensed under the **MIT License** - free to use, modify, and di
 
 <div align="center">
 
-### 📊 **Real-time Dashboard**
-![Dashboard Preview](https://via.placeholder.com/800x400/1e293b/ffffff?text=Real-time+Brand+Dashboard+%E2%9C%A8)
+### 📊 **Brand Management Interface**
+![Brand Management](assets/screenshots/brand-management.png)
+
+*Add and configure brands with custom keywords, alert thresholds, and sentiment monitoring*
 
 ### 🔔 **Smart Alert System**  
-![Alerts Preview](https://via.placeholder.com/800x300/dc2626/ffffff?text=Intelligent+Alert+System+%F0%9F%9A%A8)
+![Alert System](assets/screenshots/alerts-panel.png)
 
-### 📈 **Advanced Analytics**
-![Analytics Preview](https://via.placeholder.com/800x350/059669/ffffff?text=Sentiment+%26+Trend+Analytics+%F0%9F%93%88)
+*Real-time alerts for volume spikes, negative sentiment, and critical events with intelligent prioritization*
 
 </div>
 
