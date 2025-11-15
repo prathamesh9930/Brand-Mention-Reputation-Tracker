@@ -885,8 +885,8 @@ Thank you for hosting this incredible hackathon! This project represents my pass
 
 Your focus on innovation and technical excellence aligns perfectly with my development philosophy. I'm excited about the possibility of contributing to your team's mission of building cutting-edge solutions.
 
-**Contact**: [your-email@example.com](mailto:your-email@example.com)  
-**LinkedIn**: [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
+**Contact**: [prathameshgaikwad9137@gmail.com](mailto:prathameshgaikwad9137@gmail.com)  
+**LinkedIn**: [Prathamesh Gaikwad](https://www.linkedin.com/in/prathamesh-gaikwad-31317a319/)
 
 Thank you for your consideration! 🚀
 
