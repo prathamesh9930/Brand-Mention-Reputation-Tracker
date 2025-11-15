@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Test - Brand Tracker</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .container {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 40px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+      }
+      #root {
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .fallback {
+        background: rgba(255, 0, 0, 0.2);
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="container">
+        <h1>🔧 React Test Page</h1>
+        <p id="status">Initializing React...</p>
+        <div id="fallback" class="fallback" style="display: none;">
+          <h3>❌ React Failed to Load</h3>
+          <p>This confirms React has an issue.</p>
+          <button onclick="showDetails()">Show Details</button>
+          <div id="details" style="display: none; margin-top: 10px; text-align: left;">
+            <p><strong>Possible Issues:</strong></p>
+            <ul>
+              <li>CSS conflicts preventing visibility</li>
+              <li>React Router issues</li>
+              <li>JavaScript module loading problems</li>
+              <li>React Query initialization errors</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showDetails() {
+        document.getElementById('details').style.display = 'block';
+      }
+      
+      // Test if React can load and mount
+      setTimeout(() => {
+        const status = document.getElementById('status');
+        const fallback = document.getElementById('fallback');
+        
+        // Check if React has mounted (root should have more than just our fallback)
+        if (document.getElementById('root').children.length === 1) {
+          status.textContent = '❌ React failed to mount';
+          fallback.style.display = 'block';
+          console.error('React did not mount within 5 seconds');
+        } else {
+          status.textContent = '✅ React mounted successfully';
+          console.log('React mounted successfully');
+        }
+      }, 5000);
+      
+      console.log('React test page loaded');
+      console.log('Root element:', document.getElementById('root'));
+    </script>
+  </body>
+</html>
