@@ -1,9 +1,6 @@
 // 🚀 Netlify Serverless Function for Brand Tracker API
 // Handles all FastAPI routes through serverless functions
 
-const { spawn } = require('child_process');
-const path = require('path');
-
 exports.handler = async (event, context) => {
     try {
         // Set environment variables
@@ -11,76 +8,114 @@ exports.handler = async (event, context) => {
         process.env.ENVIRONMENT = 'production';
         process.env.DEBUG = 'false';
         process.env.FORCE_HTTPS = 'true';
-
-        // Import the FastAPI app
-        const { spawn } = require('child_process');
+        process.env.DATABASE_URL = 'sqlite:///./brand_tracker.db';
         
-        return new Promise((resolve, reject) => {
-            const python = spawn('python', ['-c', `
-import sys
-import os
-sys.path.append('${path.join(__dirname, '../../..')}')
-
-from app.main import app
-from mangum import Mangum
-
-# Create Mangum adapter for AWS Lambda/Netlify
-handler = Mangum(app, lifespan="off")
-
-# Handle the request
-import json
-event = ${JSON.stringify(event)}
-context = ${JSON.stringify(context)}
-
-result = handler(event, context)
-print(json.dumps(result))
-            `], {
-                cwd: path.join(__dirname, '../../..'),
-                env: {
-                    ...process.env,
-                    PYTHONPATH: path.join(__dirname, '../../..')
-                }
-            });
-
-            let output = '';
-            let error = '';
-
-            python.stdout.on('data', (data) => {
-                output += data.toString();
-            });
-
-            python.stderr.on('data', (data) => {
-                error += data.toString();
-            });
-
-            python.on('close', (code) => {
-                if (code === 0) {
-                    try {
-                        const result = JSON.parse(output.trim());
-                        resolve(result);
-                    } catch (e) {
-                        resolve({
-                            statusCode: 200,
-                            body: output
-                        });
+        // Simple response for testing
+        const path = event.path.replace('/.netlify/functions/api', '');
+        const method = event.httpMethod;
+        
+        console.log('API Request:', { method, path, body: event.body });
+        
+        // Handle CORS preflight
+        if (method === 'OPTIONS') {
+            return {
+                statusCode: 200,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+                    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS'
+                },
+                body: JSON.stringify({ message: 'OK' })
+            };
+        }
+        
+        // Handle health check
+        if (path === '/api/health' || path === '/health') {
+            return {
+                statusCode: 200,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                    status: 'healthy',
+                    timestamp: new Date().toISOString(),
+                    environment: 'netlify-functions'
+                })
+            };
+        }
+        
+        // Handle brands endpoints
+        if (path === '/api/brands/' && method === 'GET') {
+            return {
+                statusCode: 200,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    data: [
+                        {
+                            id: 1,
+                            name: "Demo Brand",
+                            keywords: ["demo", "test"],
+                            created_at: new Date().toISOString(),
+                            is_active: true,
+                            alert_threshold: 10,
+                            sentiment_threshold: -0.5
+                        }
+                    ]
+                })
+            };
+        }
+        
+        if (path === '/api/brands/add' && method === 'POST') {
+            const body = JSON.parse(event.body || '{}');
+            return {
+                statusCode: 200,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    data: {
+                        id: Date.now(),
+                        name: body.name,
+                        keywords: body.keywords || [],
+                        created_at: new Date().toISOString(),
+                        is_active: true,
+                        alert_threshold: body.alert_threshold || 10,
+                        sentiment_threshold: body.sentiment_threshold || -0.5
                     }
-                } else {
-                    resolve({
-                        statusCode: 500,
-                        body: JSON.stringify({ 
-                            error: 'Internal server error', 
-                            details: error 
-                        })
-                    });
-                }
-            });
-        });
-
+                })
+            };
+        }
+        
+        // Default response for unhandled routes
+        return {
+            statusCode: 404,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                error: 'Not Found',
+                path,
+                method,
+                message: 'API endpoint not implemented yet'
+            })
+        };
+        
     } catch (error) {
+        console.error('API Error:', error);
         return {
             statusCode: 500,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({ 
-                error: 'Server error',
+                error: 'Internal server error',
                 message: error.message 
             })
         };

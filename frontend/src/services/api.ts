@@ -1,16 +1,23 @@
 import axios from 'axios'
 
-const API_BASE_URL = 'http://localhost:8000/api'
+// Use environment variable for API base URL, fallback to localhost for development
+const API_BASE_URL = (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:8000/api'
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 30000, // Increased timeout for serverless functions
 })
 
 // Request interceptor
 api.interceptors.request.use(
   (config: any) => {
-    console.log(`Making ${config.method?.toUpperCase()} request to ${config.url}`)
+    console.log(`Making ${config.method?.toUpperCase()} request to ${config.baseURL}${config.url}`)
+    
+    // Add API prefix for Netlify functions
+    if (API_BASE_URL.includes('netlify')) {
+      config.url = `/api${config.url}`
+    }
+    
     return config
   },
   (error: any) => {
@@ -21,10 +28,16 @@ api.interceptors.request.use(
 // Response interceptor
 api.interceptors.response.use(
   (response: any) => {
+    console.log('API Response:', response.status, response.data)
     return response
   },
   (error: any) => {
-    console.error('API Error:', error.response?.data || error.message)
+    console.error('API Error:', {
+      status: error.response?.status,
+      data: error.response?.data,
+      message: error.message,
+      url: error.config?.url
+    })
     return Promise.reject(error)
   }
 )

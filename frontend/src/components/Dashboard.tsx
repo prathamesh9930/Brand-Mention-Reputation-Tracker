@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from 'react-query'
-import { TrendingUp, TrendingDown, AlertTriangle, MessageCircle, Eye, ThumbsUp, Share2 } from 'lucide-react'
+import { TrendingUp, TrendingDown, AlertTriangle, MessageCircle, Eye, ThumbsUp, Share2, Plus } from 'lucide-react'
 import { brandApi, mentionsApi, sentimentApi, alertsApi } from '../services/api'
 import { toast } from 'react-hot-toast'
 
@@ -60,16 +60,23 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedBrandId, setSelectedBrand
 
   if (!brands?.data || brands.data.length === 0) {
     return (
-      <div className="text-center py-12">
-        <MessageCircle className="mx-auto h-12 w-12 text-gray-400" />
-        <h3 className="mt-4 text-lg font-medium text-gray-900">No brands to monitor</h3>
-        <p className="mt-2 text-gray-500">Get started by adding your first brand to monitor.</p>
-        <button 
-          onClick={() => window.location.href = '/brands'}
-          className="btn-primary mt-4"
-        >
-          Add Your First Brand
-        </button>
+      <div className="flex flex-col items-center justify-center py-16 px-4 min-h-[60vh]">
+        <div className="text-center max-w-md mx-auto">
+          <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+            <MessageCircle className="h-8 w-8 text-gray-400" />
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">No brands to monitor</h3>
+          <p className="text-gray-600 mb-8">
+            Get started by adding your first brand to monitor for real-time mentions and sentiment analysis.
+          </p>
+          <button 
+            onClick={() => window.location.href = '/brands'}
+            className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-base font-medium"
+          >
+            <Plus className="h-5 w-5" />
+            Add Your First Brand
+          </button>
+        </div>
       </div>
     )
   }
