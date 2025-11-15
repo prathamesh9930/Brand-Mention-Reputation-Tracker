@@ -1,11 +1,12 @@
 # 🚀 Render Deployment Configuration for Brand Tracker
-# RapidQuest Hackathon 2025 - Professional Deployment
+# RapidQuest Hackathon 2025 - FREE TIER DEPLOYMENT
 
 services:
-  # 🔧 Backend API Service
+  # 🔧 Backend API Service (FREE TIER)
   - type: web
     name: brand-tracker-api
     runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     rootDir: ./backend
@@ -26,10 +27,11 @@ services:
           property: connectionString
     healthCheckPath: /api/health
 
-  # 🎨 Frontend Static Site
+  # 🎨 Frontend Static Site (FREE TIER)
   - type: web
     name: brand-tracker-frontend
     runtime: static
+    plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     rootDir: ./frontend
@@ -41,7 +43,7 @@ services:
         source: /*
         destination: /index.html
 
-# 🗄️ Database Service
+# 🗄️ Database Service (FREE TIER)
 databases:
   - name: brand-tracker-db
     databaseName: brand_tracker_prod
