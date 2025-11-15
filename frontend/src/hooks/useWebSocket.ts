@@ -15,6 +15,12 @@ export const useWebSocket = (selectedBrandId: number | null) => {
   const socketRef = useRef<WebSocket | null>(null)
 
   useEffect(() => {
+    // Skip WebSocket connection in production for now to prevent mounting issues
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      console.log('WebSocket disabled in production environment')
+      return
+    }
+
     // Connect to WebSocket
     const connectWebSocket = () => {
       try {
@@ -68,6 +74,7 @@ export const useWebSocket = (selectedBrandId: number | null) => {
         socket.onerror = (error) => {
           console.error('WebSocket error:', error)
           setIsConnected(false)
+          // Don't attempt reconnection on error to prevent blocking
         }
         
         socketRef.current = socket
@@ -75,11 +82,12 @@ export const useWebSocket = (selectedBrandId: number | null) => {
       } catch (error) {
         console.error('Error connecting to WebSocket:', error)
         setIsConnected(false)
-        
-        // Retry connection after 5 seconds
-        setTimeout(() => {
-          connectWebSocket()
-        }, 5000)
+        // Don't retry in production to prevent blocking React
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+          setTimeout(() => {
+            connectWebSocket()
+          }, 5000)
+        }
       }
     }
 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Minimal Test</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            background: white;
+        }
+        .success { 
+            background: #d4edda; 
+            color: #155724; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 10px 0; 
+        }
+        .loading { 
+            background: #fff3cd; 
+            color: #856404; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 10px 0; 
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 React Minimal Test</h1>
+    <div class="loading">⏳ Testing React mounting...</div>
+    
+    <div id="react-root"></div>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        
+        function TestComponent() {
+            const [count, setCount] = useState(0);
+            
+            useEffect(() => {
+                const timer = setInterval(() => setCount(c => c + 1), 1000);
+                return () => clearInterval(timer);
+            }, []);
+            
+            return React.createElement(
+                'div', 
+                { className: 'success' },
+                `✅ React is working! Counter: ${count} seconds`
+            );
+        }
+        
+        const root = ReactDOM.createRoot(document.getElementById('react-root'));
+        root.render(React.createElement(TestComponent));
+        
+        // Hide loading message after 2 seconds
+        setTimeout(() => {
+            const loading = document.querySelector('.loading');
+            if (loading) loading.style.display = 'none';
+        }, 2000);
+    </script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</body>
+</html>
