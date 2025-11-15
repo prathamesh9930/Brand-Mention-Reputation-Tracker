@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Page</title>
+</head>
+<body>
+    <h1>Debug Info</h1>
+    <p>If you see this, the HTML is loading but React might not be starting.</p>
+    <div id="debug">
+        <p>Timestamp: <span id="time"></span></p>
+        <p>Location: <span id="location"></span></p>
+        <p>User Agent: <span id="ua"></span></p>
+    </div>
+    <script>
+        document.getElementById('time').textContent = new Date().toISOString();
+        document.getElementById('location').textContent = window.location.href;
+        document.getElementById('ua').textContent = navigator.userAgent;
+        
+        console.log('Debug page loaded');
+        console.log('React root element:', document.getElementById('root'));
+        
+        // Try to load the main app
+        setTimeout(() => {
+            const script = document.createElement('script');
+            script.type = 'module';
+            script.src = '/assets/index-BPdW6qKN.js';
+            script.onload = () => console.log('Script loaded successfully');
+            script.onerror = (e) => console.error('Script failed to load:', e);
+            document.head.appendChild(script);
+        }, 1000);
+    </script>
+</body>
+</html>

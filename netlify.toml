@@ -22,15 +22,12 @@
   to = "/.netlify/functions/api/*"
   status = 200
 
-[[redirects]]
-  from = "/.netlify/functions/api"
-  to = "/.netlify/functions/api/"
-  status = 200
-
+# SPA fallback - only for non-file requests
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
 
 # 🔒 Security headers
 [[headers]]
