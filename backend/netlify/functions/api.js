@@ -45,8 +45,8 @@ exports.handler = async (event, context) => {
             };
         }
         
-        // Handle brands endpoints
-        if (path === '/api/brands/' && method === 'GET') {
+        // Handle brands endpoints - support both with and without trailing slash
+        if ((path === '/api/brands/' || path === '/api/brands') && method === 'GET') {
             return {
                 statusCode: 200,
                 headers: {
@@ -69,7 +69,8 @@ exports.handler = async (event, context) => {
             };
         }
         
-        if (path === '/api/brands/add' && method === 'POST') {
+        // Handle add brand endpoint
+        if ((path === '/api/brands/add' || path === '/api/api/brands/add') && method === 'POST') {
             const body = JSON.parse(event.body || '{}');
             return {
                 statusCode: 200,

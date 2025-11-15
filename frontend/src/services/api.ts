@@ -1,7 +1,10 @@
 import axios from 'axios'
 
-// Use environment variable for API base URL, fallback to localhost for development
-const API_BASE_URL = (import.meta as any).env.VITE_API_BASE_URL || 'http://localhost:8000/api'
+// Use environment variable for API base URL, with proper Netlify Functions URL
+const API_BASE_URL = (import.meta as any).env.VITE_API_BASE_URL || 
+  (window.location.hostname === 'localhost' ? 'http://localhost:8000/api' : 'https://brand-mention-reputation-tracker.netlify.app/.netlify/functions/api')
+
+console.log('API Base URL:', API_BASE_URL)
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -13,11 +16,7 @@ api.interceptors.request.use(
   (config: any) => {
     console.log(`Making ${config.method?.toUpperCase()} request to ${config.baseURL}${config.url}`)
     
-    // Add API prefix for Netlify functions
-    if (API_BASE_URL.includes('netlify')) {
-      config.url = `/api${config.url}`
-    }
-    
+    // For Netlify functions, don't add /api prefix since it's already in the base URL
     return config
   },
   (error: any) => {
