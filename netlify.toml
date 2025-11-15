@@ -9,7 +9,7 @@
 
 [build.environment]
   # Frontend environment variables
-  VITE_API_BASE_URL = "https://brand-mention-reputation-tracker.netlify.app/.netlify/functions"
+  VITE_API_BASE_URL = "https://brand-mention-reputation-tracker.netlify.app/.netlify/functions/api"
   NODE_VERSION = "18"
 
 # 🔧 Serverless Functions for Backend API
