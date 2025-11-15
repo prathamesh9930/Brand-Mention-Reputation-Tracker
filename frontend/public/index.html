@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Mention & Reputation Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      /* Fallback styles for loading state */
+      .loading-fallback {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-family: 'Inter', sans-serif;
+        text-align: center;
+      }
+      .loading-content {
+        max-width: 400px;
+        padding: 40px;
+      }
+      .spinner {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top: 4px solid #fff;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .error-message {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: 20px;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <!-- Fallback content while React loads -->
+      <div class="loading-fallback">
+        <div class="loading-content">
+          <div class="spinner"></div>
+          <h2>🚀 Brand Mention & Reputation Tracker</h2>
+          <p>Loading your dashboard...</p>
+          <div class="error-message" id="error-fallback">
+            <h3>❌ Loading Issue Detected</h3>
+            <p>If this message persists, there may be a JavaScript error.</p>
+            <p>Try refreshing the page or check the browser console.</p>
+            <button onclick="window.location.reload()" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">
+              Refresh Page
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      // Show error message if React doesn't load within 10 seconds
+      setTimeout(() => {
+        if (document.getElementById('root').children.length === 1) {
+          document.getElementById('error-fallback').style.display = 'block';
+        }
+      }, 10000);
+      
+      // Global error handler
+      window.addEventListener('error', (event) => {
+        console.error('Global error:', event.error);
+        document.getElementById('error-fallback').style.display = 'block';
+      });
+      
+      // Unhandled promise rejection handler
+      window.addEventListener('unhandledrejection', (event) => {
+        console.error('Unhandled promise rejection:', event.reason);
+        document.getElementById('error-fallback').style.display = 'block';
+      });
+    </script>
+    
+    <script type="module" crossorigin src="/assets/index-DfTdFptI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BcQ041wz.css">
+  </body>
+</html>

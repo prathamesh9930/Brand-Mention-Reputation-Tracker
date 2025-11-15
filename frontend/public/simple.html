@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Tracker - Simple Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        .status {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🚀 Brand Mention & Reputation Tracker</h1>
+            <p>This is a simplified version to test basic functionality.</p>
+            
+            <div class="status" id="status">
+                ✅ HTML Loading Successfully
+            </div>
+            
+            <button class="btn" onclick="testAPI()">Test API Connection</button>
+            <button class="btn" onclick="addTestBrand()">Add Test Brand</button>
+            
+            <div id="results"></div>
+        </div>
+        
+        <div class="card">
+            <h2>🎯 Features</h2>
+            <ul style="text-align: left;">
+                <li>✅ Brand Monitoring & Tracking</li>
+                <li>✅ Real-time Mention Detection</li>
+                <li>✅ Sentiment Analysis</li>
+                <li>✅ Alert System</li>
+                <li>✅ Professional Dashboard</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('status').innerHTML += '<br>✅ JavaScript Loading Successfully';
+        
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>🔄 Testing API...</p>';
+            
+            try {
+                const response = await fetch('/.netlify/functions/api/health');
+                const data = await response.json();
+                resultsDiv.innerHTML = `
+                    <div class="status">
+                        <h3>✅ API Test Successful</h3>
+                        <p>Status: ${data.status}</p>
+                        <p>Environment: ${data.environment}</p>
+                        <p>Time: ${new Date(data.timestamp).toLocaleString()}</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="status" style="background: rgba(255, 0, 0, 0.2);">
+                        <h3>❌ API Test Failed</h3>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function addTestBrand() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>🔄 Adding test brand...</p>';
+            
+            try {
+                const response = await fetch('/.netlify/functions/api/brands/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'Test Brand ' + Date.now(),
+                        keywords: ['test', 'demo'],
+                        alert_threshold: 10,
+                        sentiment_threshold: -0.5
+                    })
+                });
+                const data = await response.json();
+                resultsDiv.innerHTML = `
+                    <div class="status">
+                        <h3>✅ Brand Added Successfully</h3>
+                        <p>Name: ${data.data.name}</p>
+                        <p>ID: ${data.data.id}</p>
+                        <p>Keywords: ${data.data.keywords.join(', ')}</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="status" style="background: rgba(255, 0, 0, 0.2);">
+                        <h3>❌ Failed to Add Brand</h3>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        console.log('🎉 Brand Tracker Simple Test Loaded Successfully!');
+        console.log('📍 Location:', window.location.href);
+        console.log('🔧 User Agent:', navigator.userAgent);
+    </script>
+</body>
+</html>
