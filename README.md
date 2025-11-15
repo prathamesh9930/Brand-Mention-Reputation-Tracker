@@ -17,9 +17,25 @@
 ### 🎯 **Project Overview**
 A comprehensive brand reputation tracking solution with enterprise-grade security, real-time data processing, and AI-powered sentiment analysis. Built for the RapidQuest Virtual Hackathon (Nov 14-16, 2025).
 
-**Challenge**: AI-Powered Marketing Solutions  
-**Duration**: 48 Hours  
-**Submission**: Individual Developer Challenge
+**Challenge**: AI-Powered Marketing Solutions | **Duration**: 48 Hours | **Submission**: Individual Developer Challenge
+
+---
+
+## 🎬 **See It In Action**
+
+<div align="center">
+
+### 📊 **Brand Management Interface**
+![Brand Management](assets/screenshots/brand-management.png)
+
+*Add and configure brands with custom keywords, alert thresholds, and sentiment monitoring*
+
+### 🔔 **Smart Alert System**  
+![Alert System](assets/screenshots/alerts-panel.png)
+
+*Real-time alerts for volume spikes, negative sentiment, and critical events with intelligent prioritization*
+
+</div>
 
 ---
 
@@ -142,158 +158,6 @@ This project is licensed under the **MIT License** - free to use, modify, and di
 *Made with ❤️ for winning hackathons and solving real business problems*
 
 </div>
-
----
-
-### 📊 **Key Features**
-
-<table>
-<tr>
-<td width="50%">
-
-### 🎯 **Core Functionality**
-- 🔐 **Enterprise Security** - JWT + API Keys + HTTPS
-- 📊 **Real-Time Processing** - 20,000+ live news articles
-- ⚡ **Lightning Fast** - WebSocket real-time updates
-- 🎨 **Modern UI** - React dashboard with responsive design
-- 🔔 **Smart Alerts** - AI-powered threat detection
-- 📈 **Advanced Analytics** - Sentiment & trend analysis
-
-</td>
-<td width="50%">
-
-### 🚀 **Technical Excellence**
-- 🧠 **AI Integration** - Advanced sentiment analysis
-- ⚡ **High Performance** - <50ms API response times
-- 🔄 **Real-time Updates** - WebSocket live data streaming
-- 🌍 **Multi-source Data** - News, social media integration
-- 📊 **Data Visualization** - Interactive charts and graphs
-- 🛡️ **Production Ready** - Enterprise-grade deployment
-
-</td>
-</tr>
-</table>
-
-### 📋 **Hackathon Submission Details**
-
-<div align="center">
-
-[![Local Demo](https://img.shields.io/badge/🌐_Local_Demo-Run_Locally-green?style=for-the-badge&logo=globe)](http://localhost:3000)
-[![GitHub Repo](https://img.shields.io/badge/📂_Source_Code-View_on_GitHub-black?style=for-the-badge&logo=github)](https://github.com/prathamesh9930/Brand-Mention-Reputation-Tracker)
-
-</div>
-
-**📅 Submission Date**: November 16, 2025 (Before 3:00 PM IST)  
-**🎯 Problem Statement**: AI-Powered Marketing Solutions  
-**⏱️ Development Time**: 48 Hours  
-**👤 Developer**: Individual Challenge Submission  
-
-**🔗 Required Links**:
-- ✅ **Local Demo**: Follow setup instructions below to run locally
-- ✅ **GitHub Repository**: Complete with comprehensive setup instructions
-- ✅ **Demo Video**: 5-10 minute walkthrough showing features and technical decisions
-
-**📊 Technical Evaluation Metrics**:
-- 🏆 **Innovation & Creativity**: Unique AI-powered sentiment analysis approach
-- 💻 **Code Quality**: Clean, modular, enterprise-grade codebase
-- 🔧 **Technical Depth**: Full-stack with ML, real-time processing, local development setup
-- 🎯 **Product Thinking**: Practical marketing solution with measurable business impact
-
----
-
-## 🎬 **See It In Action**
-
-<div align="center">
-
-### 📊 **Brand Management Interface**
-![Brand Management](assets/screenshots/brand-management.png)
-
-*Add and configure brands with custom keywords, alert thresholds, and sentiment monitoring*
-
-### 🔔 **Smart Alert System**  
-![Alert System](assets/screenshots/alerts-panel.png)
-
-*Real-time alerts for volume spikes, negative sentiment, and critical events with intelligent prioritization*
-
-</div>
-
----
-
-## ⚡ **Local Development Setup**
-
-### 🚀 **Quick Start (Recommended)**
-
-```powershell
-# 1. Clone the repository
-git clone https://github.com/prathamesh9930/Brand-Mention-Reputation-Tracker.git
-cd Brand-Mention-Reputation-Tracker
-
-# 2. Backend Setup
-cd backend
-pip install -r requirements.txt
-
-# 3. Start Backend Server
-uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
-
-# 4. Frontend Setup (new terminal)
-cd frontend
-npm install
-
-# 5. Start Frontend Server
-npm run dev
-```
-
-🎉 **That's it!** Your Brand Tracker will be running at:
-- 🌐 **Dashboard**: http://localhost:3000
-- 🔧 **API**: http://localhost:8000
-- 📚 **API Docs**: http://localhost:8000/docs
-
-### 🛠️ **Manual Step-by-Step Setup**
-
-<details>
-<summary><b>📦 Prerequisites</b></summary>
-
-- **Python 3.8+** (for backend)
-- **Node.js 16+** (for frontend)  
-- **Git** (for cloning repository)
-
-</details>
-
-<details>
-<summary><b>🐍 Backend Setup</b></summary>
-
-```bash
-# Navigate to backend directory
-cd backend
-
-# Install Python dependencies
-pip install -r requirements.txt
-
-# Start the FastAPI server
-uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
-```
-
-Backend will be available at: http://localhost:8000
-
-</details>
-
-<details>
-<summary><b>⚛️ Frontend Setup</b></summary>
-
-```bash
-# Open new terminal, navigate to frontend
-cd frontend
-
-# Install Node.js dependencies  
-npm install
-
-# Start the React development server
-npm run dev
-```
-
-Frontend will be available at: http://localhost:3000
-
-</details>
 
 ---
 
