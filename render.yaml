@@ -1,0 +1,62 @@
+# 🚀 Render Deployment Configuration for Brand Tracker
+# RapidQuest Hackathon 2025 - Professional Deployment
+
+services:
+  # 🔧 Backend API Service
+  - type: web
+    name: brand-tracker-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    rootDir: ./backend
+    envVars:
+      - key: NEWS_API_KEY
+        value: 771f41596a4d4d2ab79a6581c9c01024
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: false
+      - key: FORCE_HTTPS
+        value: true
+      - key: CORS_ORIGINS
+        value: '["https://brand-tracker-frontend.onrender.com", "https://brand-tracker.onrender.com"]'
+      - key: DATABASE_URL
+        fromDatabase:
+          name: brand-tracker-db
+          property: connectionString
+    healthCheckPath: /api/health
+
+  # 🎨 Frontend Static Site
+  - type: web
+    name: brand-tracker-frontend
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    rootDir: ./frontend
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://brand-tracker-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+# 🗄️ Database Service
+databases:
+  - name: brand-tracker-db
+    databaseName: brand_tracker_prod
+    user: brand_tracker_user
+    plan: free
+
+# 📝 Deployment Notes:
+# 1. Connect your GitHub repository to Render
+# 2. This file will auto-configure both services
+# 3. Database will be automatically provisioned
+# 4. SSL certificates will be auto-generated
+# 5. Custom domains can be added in Render dashboard
+#
+# 🔗 Expected URLs:
+# Frontend: https://brand-tracker-frontend.onrender.com
+# Backend:  https://brand-tracker-api.onrender.com
+# 
+# 🏆 Perfect for RapidQuest Hackathon Demo!
