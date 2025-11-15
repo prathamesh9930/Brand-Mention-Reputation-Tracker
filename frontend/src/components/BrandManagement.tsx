@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from 'react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Plus, Edit2, Trash2, Settings, TrendingUp } from 'lucide-react'
 import { brandApi } from '../services/api'
 import { toast } from 'react-hot-toast'
@@ -10,12 +10,16 @@ const BrandManagement = () => {
   const queryClient = useQueryClient()
 
   // Fetch brands
-  const { data: brands, isLoading } = useQuery('brands', brandApi.getAll)
+  const { data: brands, isLoading } = useQuery({
+    queryKey: ['brands'],
+    queryFn: brandApi.getAll
+  })
 
   // Add brand mutation
-  const addBrandMutation = useMutation(brandApi.create, {
+  const addBrandMutation = useMutation({
+    mutationFn: brandApi.create,
     onSuccess: () => {
-      queryClient.invalidateQueries('brands')
+      queryClient.invalidateQueries({ queryKey: ['brands'] })
       toast.success('Brand added successfully!')
       setShowAddForm(false)
     },
@@ -25,9 +29,10 @@ const BrandManagement = () => {
   })
 
   // Delete brand mutation
-  const deleteBrandMutation = useMutation(brandApi.delete, {
+  const deleteBrandMutation = useMutation({
+    mutationFn: brandApi.delete,
     onSuccess: () => {
-      queryClient.invalidateQueries('brands')
+      queryClient.invalidateQueries({ queryKey: ['brands'] })
       toast.success('Brand deleted successfully!')
     },
     onError: () => {
@@ -172,10 +177,10 @@ const BrandManagement = () => {
               </button>
               <button
                 type="submit"
-                disabled={addBrandMutation.isLoading}
+                disabled={addBrandMutation.isPending}
                 className="btn-primary"
               >
-                {addBrandMutation.isLoading ? 'Adding...' : 'Add Brand'}
+                {addBrandMutation.isPending ? 'Adding...' : 'Add Brand'}
               </button>
             </div>
           </form>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { TrendingUp, TrendingDown, AlertTriangle, MessageCircle, Eye, ThumbsUp, Share2, Plus } from 'lucide-react'
 import { brandApi, mentionsApi, sentimentApi, alertsApi } from '../services/api'
 import { toast } from 'react-hot-toast'
@@ -13,35 +13,38 @@ const Dashboard: React.FC<DashboardProps> = ({ selectedBrandId, setSelectedBrand
   const [timeRange, setTimeRange] = useState(24) // hours
   
   // Fetch brands
-  const { data: brands, isLoading: brandsLoading } = useQuery('brands', brandApi.getAll)
+  const { data: brands, isLoading: brandsLoading } = useQuery({
+    queryKey: ['brands'],
+    queryFn: brandApi.getAll
+  })
   
   // Fetch brand stats
-  const { data: brandStats } = useQuery(
-    ['brandStats', selectedBrandId],
-    () => selectedBrandId ? brandApi.getStats(selectedBrandId) : null,
-    { enabled: !!selectedBrandId }
-  )
+  const { data: brandStats } = useQuery({
+    queryKey: ['brandStats', selectedBrandId],
+    queryFn: () => selectedBrandId ? brandApi.getStats(selectedBrandId) : null,
+    enabled: !!selectedBrandId
+  })
   
   // Fetch mentions timeline
-  const { data: mentionsTimeline } = useQuery(
-    ['mentionsTimeline', selectedBrandId, timeRange],
-    () => selectedBrandId ? mentionsApi.getTimeline(selectedBrandId, { hours: timeRange }) : null,
-    { enabled: !!selectedBrandId }
-  )
+  const { data: mentionsTimeline } = useQuery({
+    queryKey: ['mentionsTimeline', selectedBrandId, timeRange],
+    queryFn: () => selectedBrandId ? mentionsApi.getTimeline(selectedBrandId, { hours: timeRange }) : null,
+    enabled: !!selectedBrandId
+  })
   
   // Fetch sentiment analysis
-  const { data: sentimentData } = useQuery(
-    ['sentimentAnalysis', selectedBrandId, timeRange],
-    () => selectedBrandId ? sentimentApi.getAnalysis(selectedBrandId, { hours: timeRange }) : null,
-    { enabled: !!selectedBrandId }
-  )
+  const { data: sentimentData } = useQuery({
+    queryKey: ['sentimentAnalysis', selectedBrandId, timeRange],
+    queryFn: () => selectedBrandId ? sentimentApi.getAnalysis(selectedBrandId, { hours: timeRange }) : null,
+    enabled: !!selectedBrandId
+  })
   
   // Fetch recent mentions
-  const { data: recentMentions } = useQuery(
-    ['recentMentions', selectedBrandId],
-    () => selectedBrandId ? mentionsApi.getByBrand(selectedBrandId, { limit: 10 }) : null,
-    { enabled: !!selectedBrandId }
-  )
+  const { data: recentMentions } = useQuery({
+    queryKey: ['recentMentions', selectedBrandId],
+    queryFn: () => selectedBrandId ? mentionsApi.getByBrand(selectedBrandId, { limit: 10 }) : null,
+    enabled: !!selectedBrandId
+  })
 
   // Auto-select first brand if none selected
   useEffect(() => {
